@@ -63,12 +63,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px
 .top > * { pointer-events: auto; }
 .brand h1 { font-family: var(--display); font-weight: 400; font-size: clamp(26px, 4vw, 38px); line-height: 1.1; margin: 0; letter-spacing: .04em; }
 .brand p { margin: 4px 0 0; color: var(--ink-dim); font-size: 13px; max-width: 30em; }
-.tools { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.tools { display: flex; flex-direction: column; align-items: stretch; gap: 8px; } /* 検索欄と下の行の左端・右端をそろえる */
 .modes { display: flex; gap: 2px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 3px; backdrop-filter: blur(8px); }
 .modes button { border: 0; background: transparent; padding: 5px 14px; border-radius: 999px; font-size: 13px; }
 .modes button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
 .search { display: flex; gap: 6px; align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 4px 6px 4px 14px; backdrop-filter: blur(8px); }
-.search input { background: transparent; border: 0; color: var(--ink); font: inherit; width: 13em; min-width: 0; }
+.search input { background: transparent; border: 0; color: var(--ink); font: inherit; width: 13em; min-width: 0; flex: 1; }
 .search input::placeholder { color: var(--ink-dim); }
 .search button { border: 0; background: transparent; padding: 4px 8px; border-radius: 999px; }
 
@@ -92,7 +92,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px
 .hint { position: fixed; z-index: 3; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); color: var(--ink-dim); font-size: 12px; text-align: right; }
 
 .panel {
-  position: fixed; z-index: 7; top: calc(172px + env(safe-area-inset-top, 0px)); bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  position: fixed; z-index: 7; top: calc(128px + env(safe-area-inset-top, 0px)); bottom: calc(80px + env(safe-area-inset-bottom, 0px));
   right: max(16px, env(safe-area-inset-right, 0px)); width: min(380px, calc(100% - 32px));
   background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); backdrop-filter: blur(12px);
   display: flex; flex-direction: column; overflow: hidden;
@@ -155,9 +155,8 @@ textarea.field-input { min-height: 96px; resize: vertical; }
 
 .tooltip { position: fixed; z-index: 8; pointer-events: none; background: var(--panel-solid); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; font-size: 12.5px; max-width: 260px; transform: translate(12px, 12px); }
 
-.reset-row { display: flex; justify-content: flex-end; }
-.meteor-btn { position: fixed; z-index: 6; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(48px + env(safe-area-inset-bottom, 0px));
-  border: 1px solid rgba(255, 209, 102, .5); background: var(--panel); border-radius: 999px; padding: 8px 16px; backdrop-filter: blur(8px); box-shadow: 0 0 18px rgba(255, 209, 102, .25); }
+.reset-row { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; } /* 「全体を見る」と表示切替は別グループとして間をあける */
+.meteor-btn { border-color: rgba(255, 209, 102, .5); box-shadow: 0 0 18px rgba(255, 209, 102, .25); }
 .meteor-note { margin: 0 0 8px; padding: 8px 10px; border-radius: 10px; background: rgba(255, 209, 102, .12); font-size: 13px; }
 /* つかみの1問 */
 .hookq { border: 1px dashed rgba(255, 209, 102, .55); border-radius: 12px; padding: 10px 12px; margin: 10px 0 4px; }
@@ -187,8 +186,11 @@ textarea.field-input { min-height: 96px; resize: vertical; }
 .swipe-actions .btn { padding: 10px; }
 .swipe-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 12.5px; color: var(--ink-dim); gap: 8px; }
 .linkish { border: 0; background: transparent; color: var(--accent); text-decoration: underline; padding: 4px; font-size: 13px; }
-body.swiping .dock, body.swiping .meteor-btn { display: none; }
+body.swiping .dock { display: none; }
+@media (max-width: 1150px) { .hint { display: none; } }
 @media (max-width: 720px) {
+  .dock { gap: 6px; }
+  .dock .btn { padding: 8px 10px; font-size: 13px; white-space: nowrap; }
   .legend { display: none; }
   .hint { display: none; }
   .brand p { display: none; }
@@ -196,8 +198,7 @@ body.swiping .dock, body.swiping .meteor-btn { display: none; }
   .panel { top: auto; left: 0; right: 0; width: auto; bottom: 0; height: 58%; border-radius: 18px 18px 0 0;
     padding-bottom: env(safe-area-inset-bottom, 0px); padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
   .dock { bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
-  body.panel-open .dock, body.panel-open .meteor-btn { display: none; }
-  .meteor-btn { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  body.panel-open .dock { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
@@ -217,9 +218,11 @@ body.swiping .dock, body.swiping .meteor-btn { display: none; }
     <input id="searchInput" type="search" placeholder="さがす（例：睡眠）" aria-label="キーワード検索">
     <button type="submit" aria-label="検索">🔍</button>
   </form>
-  <div class="reset-row"><button class="btn small" id="resetView">全体を見る</button></div>
+  <div class="reset-row">
+  <button class="btn small" id="resetView">全体を見る</button>
   <div class="modes" id="modes" role="group" aria-label="表示の切り替え">
     <button data-mode="3d" aria-pressed="true">3D</button><button data-mode="flat" aria-pressed="false">平面</button><button data-mode="fields" aria-pressed="false">分野別</button>
+  </div>
   </div>
   </div>
 </div>
@@ -228,15 +231,15 @@ body.swiping .dock, body.swiping .meteor-btn { display: none; }
 
 <div class="dock">
   <button class="btn primary" id="openQuiz">わたしの興味から探す</button>
-  <button class="btn" id="openSwipe">👆 直感でえらぶ</button>
+  <button class="btn" id="openSwipe">直感でえらぶ</button>
+  <button class="btn meteor-btn" id="meteorBtn" aria-label="流れ星：ふだん選ばない分野から教材を1つ運んでくる">流れ星</button>
   <button class="btn" id="openRec" hidden>おすすめを見る</button>
 </div>
-<button class="meteor-btn" id="meteorBtn" aria-label="流れ星：ふだん選ばない分野から教材を1つ運んでくる">🌠 流れ星</button>
 <section class="swipe" id="swipe" hidden aria-label="直感でえらぶ">
   <div class="swipe-head"><h2>直感でえらぼう</h2><span class="count" id="swipeCount"></span><button class="x" id="swipeClose" aria-label="閉じる">×</button></div>
   <p class="swipe-sub">気になったら右へ、ちがうと思ったら左へ。選ぶたびに、あなたの星が動きます。</p>
   <div class="swipe-card" id="swipeCard"></div>
-  <div class="swipe-actions"><button class="btn" id="swipePass">👈 パス</button><button class="btn primary" id="swipeLike">気になる 👉</button></div>
+  <div class="swipe-actions"><button class="btn" id="swipePass">パス</button><button class="btn primary" id="swipeLike">気になる</button></div>
   <div class="swipe-foot"><span id="swipeLikes">気になる：0</span><button class="linkish" id="swipeDone">ここまでで結果を見る</button></div>
 </section>
 <div class="hint" id="hint">ドラッグ：回転　ホイール/ピンチ：拡大縮小　右ドラッグ/2本指：移動</div>
